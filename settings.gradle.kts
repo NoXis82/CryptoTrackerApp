@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "CryptoTrackerApp"
 include(":app")
+include(":common-core")
