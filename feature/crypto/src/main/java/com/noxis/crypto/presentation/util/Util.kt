@@ -1,7 +1,7 @@
 package com.noxis.crypto.presentation.util
 
 import android.icu.text.NumberFormat
-import com.noxis.common_core.util.getDrawableIdForCoin
+import com.noxis.common_core.presentation.util.getDrawableIdForCoin
 import com.noxis.crypto.domain.Coin
 import com.noxis.crypto.presentation.models.CoinUi
 import com.noxis.crypto.presentation.models.DisplayableNumber
