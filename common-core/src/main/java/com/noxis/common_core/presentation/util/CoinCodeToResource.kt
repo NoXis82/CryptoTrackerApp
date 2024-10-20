@@ -1,4 +1,4 @@
-package com.noxis.common_core.util
+package com.noxis.common_core.presentation.util
 
 import com.noxis.common_core.R
 

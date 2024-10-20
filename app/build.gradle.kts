@@ -22,8 +22,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "BASE_URL", "\"https://api.coincap.io/v2/\"")
+        }
         release {
             isMinifyEnabled = false
+            buildConfigField("String", "BASE_URL", "\"https://api.coincap.io/v2/\"")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
