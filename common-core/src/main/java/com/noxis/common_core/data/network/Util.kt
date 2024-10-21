@@ -47,7 +47,7 @@ suspend inline fun <reified T> responseToResult(
     }
 }
 
-//todo BuildConfig -> DI
+//BuildConfig -> DI
 fun constructUrl(url: String, appConfigSource: AppConfigSource): String {
     return when {
         url.contains(appConfigSource.baseUrl) -> url
