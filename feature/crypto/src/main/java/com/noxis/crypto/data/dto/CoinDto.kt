@@ -1,6 +1,9 @@
-package com.noxis.crypto.domain
+package com.noxis.crypto.data.dto
 
-data class Coin(
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class CoinDto(
     val id: String,
     val rank: Int,
     val name: String,

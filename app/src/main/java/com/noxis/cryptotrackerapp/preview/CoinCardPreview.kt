@@ -5,7 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import com.noxis.crypto.domain.Coin
+import com.noxis.crypto.domain.models.Coin
 import com.noxis.crypto.presentation.components.CoinCard
 import com.noxis.crypto.presentation.util.toCoinUi
 import com.noxis.cryptotrackerapp.ui.theme.CryptoTrackerAppTheme
