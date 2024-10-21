@@ -47,11 +47,11 @@ suspend inline fun <reified T> responseToResult(
     }
 }
 
-//todo BuildConfig -> DI
-//fun constructUrl(url: String): String {
-//    return when {
-//        url.contains(BuildConfig.BASE_URL) -> url
-//        url.startsWith("/") -> BuildConfig.BASE_URL + url.drop(1)
-//        else -> BuildConfig.BASE_URL + url
-//    }
-//}
+//BuildConfig -> DI
+fun constructUrl(url: String, appConfigSource: AppConfigSource): String {
+    return when {
+        url.contains(appConfigSource.baseUrl) -> url
+        url.startsWith("/") -> appConfigSource.baseUrl + url.drop(1)
+        else -> appConfigSource.baseUrl + url
+    }
+}
