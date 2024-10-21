@@ -1,5 +1,7 @@
 package com.noxis.crypto.data.network
 
+import com.noxis.common_core.data.network.AppConfigSource
+import com.noxis.common_core.data.network.constructUrl
 import com.noxis.common_core.data.network.safeCall
 import com.noxis.common_core.domain.util.NetworkError
 import com.noxis.common_core.domain.util.Result
@@ -12,13 +14,14 @@ import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 
 class RemoteCoinDataSource(
-    private val httpClient: HttpClient
+    private val httpClient: HttpClient,
+    private val appConfigSource: AppConfigSource
 ): CoinDataSource {
 
     override suspend fun getCoins(): Result<List<Coin>, NetworkError> {
         return safeCall<CoinsResponseDto> {
             httpClient.get(
-                urlString = "" //constructUrl("/assets")
+                urlString = constructUrl("/assets", appConfigSource)
             )
         }.map { response ->
             response.data.map { it.toCoin() }
