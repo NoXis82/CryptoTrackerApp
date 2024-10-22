@@ -1,4 +1,4 @@
-package com.noxis.crypto.presentation.event
+package com.noxis.crypto.presentation.state
 
 import com.noxis.crypto.presentation.models.CoinUi
 

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_request_timeout">Запрос прервался по времени.</string>
+    <string name="error_too_many_requests">Упс, похоже, что ваша квота превышена.</string>
+    <string name="error_no_internet">Не удалось подключиться к серверу, пожалуйста, проверьте подключение к Интернету.</string>
+    <string name="error_unknown">Что-то пошло не так. Пожалуйста, повторите попытку позже.</string>
+    <string name="error_serialization">Не удалось выполнить сериализацию или десериализацию данных.</string>
+</resources>
