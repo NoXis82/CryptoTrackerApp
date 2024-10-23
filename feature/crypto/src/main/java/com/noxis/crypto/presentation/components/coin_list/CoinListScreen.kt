@@ -1,4 +1,4 @@
-package com.noxis.crypto.presentation.components
+package com.noxis.crypto.presentation.components.coin_list
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,12 +11,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.noxis.crypto.presentation.state.CoinListAction
 import com.noxis.crypto.presentation.state.CoinListState
 
 @Composable
 fun CoinListScreen(
     state: CoinListState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onAction: (CoinListAction) -> Unit
 ) {
     when {
         state.coins.isNotEmpty() -> {
@@ -28,7 +30,7 @@ fun CoinListScreen(
                 items(state.coins) { coinUi ->
                     CoinCard(
                         coinUi = coinUi,
-                        onClick = { /*TODO*/ },
+                        onClick = { onAction(CoinListAction.OnCoinClick(coinUi)) },
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
