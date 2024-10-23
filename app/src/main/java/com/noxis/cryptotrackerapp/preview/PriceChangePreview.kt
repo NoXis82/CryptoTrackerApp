@@ -2,7 +2,7 @@ package com.noxis.cryptotrackerapp.preview
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import com.noxis.crypto.presentation.components.PriceChange
+import com.noxis.crypto.presentation.components.coin_list.PriceChange
 import com.noxis.crypto.presentation.models.DisplayableNumber
 import com.noxis.cryptotrackerapp.ui.theme.CryptoTrackerAppTheme
 

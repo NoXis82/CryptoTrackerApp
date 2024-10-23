@@ -6,13 +6,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.noxis.crypto.domain.models.Coin
-import com.noxis.crypto.presentation.components.CoinCard
+import com.noxis.crypto.presentation.components.coin_list.CoinCard
 import com.noxis.crypto.presentation.util.toCoinUi
 import com.noxis.cryptotrackerapp.ui.theme.CryptoTrackerAppTheme
 
 @PreviewLightDark
 @Composable
-fun CoinCardPreview() {
+private fun CoinCardPreview() {
     CryptoTrackerAppTheme {
         CoinCard(
             coinUi = previewCoin,

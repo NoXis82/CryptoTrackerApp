@@ -14,7 +14,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.noxis.common_core.presentation.util.ObserveAsEvents
 import com.noxis.common_core.presentation.util.toString
-import com.noxis.crypto.presentation.components.CoinListScreen
+import com.noxis.crypto.presentation.components.coin_detail.CoinDetailScreen
+import com.noxis.crypto.presentation.components.coin_list.CoinListScreen
 import com.noxis.crypto.presentation.event.CoinListEvent
 import com.noxis.crypto.presentation.viewmodels.CoinListViewModel
 import com.noxis.cryptotrackerapp.ui.theme.CryptoTrackerAppTheme
@@ -41,8 +42,21 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     }
-
-                    CoinListScreen(state = state, modifier = Modifier.padding(innerPadding))
+                    when {
+                        state.selectedCoin != null -> {
+                            CoinDetailScreen(
+                                state = state,
+                                modifier = Modifier.padding(innerPadding)
+                            )
+                        }
+                        else -> {
+                            CoinListScreen(
+                                state = state,
+                                modifier = Modifier.padding(innerPadding),
+                                onAction = viewModel::onAction
+                            )
+                        }
+                    }
                 }
             }
         }

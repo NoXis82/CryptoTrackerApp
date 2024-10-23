@@ -1,4 +1,4 @@
-package com.noxis.crypto.presentation.components
+package com.noxis.crypto.presentation.components.coin_list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row

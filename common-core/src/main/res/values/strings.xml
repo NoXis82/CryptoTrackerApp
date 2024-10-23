@@ -5,4 +5,8 @@
     <string name="error_no_internet">Не удалось подключиться к серверу, пожалуйста, проверьте подключение к Интернету.</string>
     <string name="error_unknown">Что-то пошло не так. Пожалуйста, повторите попытку позже.</string>
     <string name="error_serialization">Не удалось выполнить сериализацию или десериализацию данных.</string>
+    <string name="market_cap">Рыночный капитал</string>
+    <string name="price">Стоимость</string>
+    <string name="change_last_24h">Изменение за сутки</string>
+
 </resources>
