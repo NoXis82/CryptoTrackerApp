@@ -6,6 +6,7 @@ import com.noxis.common_core.domain.util.onError
 import com.noxis.common_core.domain.util.onSuccess
 import com.noxis.crypto.domain.CoinDataSource
 import com.noxis.crypto.presentation.event.CoinListEvent
+import com.noxis.crypto.presentation.models.CoinUi
 import com.noxis.crypto.presentation.state.CoinListAction
 import com.noxis.crypto.presentation.state.CoinListState
 import com.noxis.crypto.presentation.util.toCoinUi
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.ZonedDateTime
 
 class CoinListViewModel(
     private val coinDataSource: CoinDataSource
@@ -34,12 +36,26 @@ class CoinListViewModel(
     val events = _events.receiveAsFlow()
 
     fun onAction(action: CoinListAction) {
-        when(action) {
-            is CoinListAction.OnCoinClick -> {
-                _state.update {
-                    it.copy(selectedCoin = action.coinUi)
+        when (action) {
+            is CoinListAction.OnCoinClick -> selectCoin(action.coinUi)
+        }
+    }
+
+    private fun selectCoin(coinUi: CoinUi) {
+        _state.update { it.copy(selectedCoin = coinUi) }
+
+        viewModelScope.launch {
+            coinDataSource.getCoinHistory(
+                coinId = coinUi.id,
+                start = ZonedDateTime.now().minusDays(5),
+                end = ZonedDateTime.now()
+            )
+                .onSuccess { history ->
+                    println(history)
                 }
-            }
+                .onError { error ->
+                    _events.send(CoinListEvent.Error(error))
+                }
         }
     }
 
