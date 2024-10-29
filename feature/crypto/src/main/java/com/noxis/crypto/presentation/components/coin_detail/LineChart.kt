@@ -86,10 +86,35 @@ fun LineChart(
                         + xLabelLineHeight + xAxisLabelSpacingPx)
 
         // Y-LABEL CALCULATION
+        val labelViewPortHeightPx = viewPortHeightPx + xLabelLineHeight
+        val labelCountExcludingLastLabel =
+            ((labelViewPortHeightPx / (xLabelLineHeight + minLabelSpacingYPx))).toInt()
+        val valueIncrement = (maxYValue - minYValue) / labelCountExcludingLastLabel
+        val yLabels = (0..labelCountExcludingLastLabel).map {
+            ValueLabel(
+                value = maxYValue - (valueIncrement * it),
+                unit = unit
+            )
+        }
+        val yLabelTextLayoutResults = yLabels.map {
+            measurer.measure(
+                text = it.formatted(),
+                style = textStyle
+            )
+        }
+
+        val heightRequiredForLabels = xLabelLineHeight *
+                (labelCountExcludingLastLabel + 1)
+        val remainingHeightForLabels = labelViewPortHeightPx - heightRequiredForLabels
+        val spaceBetweenLabels = remainingHeightForLabels / labelCountExcludingLastLabel
+
+        val maxYLabelWidth = yLabelTextLayoutResults.maxOfOrNull { it.size.width } ?: 0
+
+
         val viewPortTopY = verticalPaddingPx + xLabelLineHeight + 10f
         val viewPortRightX = size.width
         val viewPortBottomY = viewPortTopY + viewPortHeightPx
-        val viewPortLeftX = 2f * horizontalPaddingPx
+        val viewPortLeftX = 2f * horizontalPaddingPx + maxYLabelWidth
 
         val viewPort = Rect(
             left = viewPortLeftX,
@@ -111,11 +136,30 @@ fun LineChart(
                 topLeft = Offset(
                     x = viewPortLeftX + xAxisLabelSpacingPx / 2f + xLabelWidth * index,
                     y = viewPortBottomY + xAxisLabelSpacingPx
-                )
+                ),
+                color = if (index == selectedDataPointIndex) {
+                    style.selectedColor
+                } else style.unselectedColor
             )
         }
+
+        yLabelTextLayoutResults.forEachIndexed { index, result ->
+            val x = horizontalPaddingPx + maxYLabelWidth - result.size.width.toFloat()
+            val y = viewPortTopY +
+                    index * (xLabelLineHeight + spaceBetweenLabels) -
+                    xLabelLineHeight / 2f
+            drawText(
+                textLayoutResult = result,
+                topLeft = Offset(
+                    x = x,
+                    y = y
+                ),
+                color = if (index == selectedDataPointIndex) {
+                    style.selectedColor
+                } else style.unselectedColor
+            )
+        }
+
     }
-
-
 }
 
