@@ -124,7 +124,7 @@ fun LineChart(
         )
 
         drawRect(
-            color = Color.Green,
+            color = Color.Green.copy(alpha = 0.3f),
             topLeft = viewPort.topLeft,
             size = viewPort.size
         )
@@ -158,6 +158,20 @@ fun LineChart(
                     style.selectedColor
                 } else style.unselectedColor
             )
+            if(showHelperLines) {
+                drawLine(
+                    color = style.unselectedColor,
+                    start = Offset(
+                        x = viewPortLeftX,
+                        y = y + result.size.height.toFloat() / 2f
+                    ),
+                    end = Offset(
+                        x = viewPortRightX,
+                        y = y + result.size.height.toFloat() / 2f
+                    ),
+                    strokeWidth = style.helperLinesThicknessPx
+                )
+            }
         }
 
     }
