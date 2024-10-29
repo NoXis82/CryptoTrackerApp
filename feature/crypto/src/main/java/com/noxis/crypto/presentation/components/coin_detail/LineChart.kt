@@ -131,16 +131,35 @@ fun LineChart(
 
         xLabelWidth = maxXLabelWidth + xAxisLabelSpacingPx
         xLabelTextLayoutResults.forEachIndexed { index, result ->
+            val x = viewPortLeftX + xAxisLabelSpacingPx / 2f + xLabelWidth * index
             drawText(
                 textLayoutResult = result,
                 topLeft = Offset(
-                    x = viewPortLeftX + xAxisLabelSpacingPx / 2f + xLabelWidth * index,
+                    x = x,
                     y = viewPortBottomY + xAxisLabelSpacingPx
                 ),
                 color = if (index == selectedDataPointIndex) {
                     style.selectedColor
                 } else style.unselectedColor
             )
+            if(showHelperLines) {
+                drawLine(
+                    color = if (selectedDataPointIndex == index) {
+                        style.selectedColor
+                    } else style.unselectedColor,
+                    start = Offset(
+                        x = x + result.size.width / 2f,
+                        y = viewPortBottomY
+                    ),
+                    end = Offset(
+                        x = x + result.size.width / 2f,
+                        y = viewPortTopY
+                    ),
+                    strokeWidth = if (selectedDataPointIndex == index) {
+                        style.helperLinesThicknessPx * 1.8f
+                    } else style.helperLinesThicknessPx
+                )
+            }
         }
 
         yLabelTextLayoutResults.forEachIndexed { index, result ->
