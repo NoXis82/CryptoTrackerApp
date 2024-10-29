@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
+import kotlin.math.roundToInt
 
 @Composable
 fun LineChart(
@@ -85,6 +86,7 @@ fun LineChart(
                 (maxXLabelHeight + 2 * verticalPaddingPx
                         + xLabelLineHeight + xAxisLabelSpacingPx)
 
+
         // Y-LABEL CALCULATION
         val labelViewPortHeightPx = viewPortHeightPx + xLabelLineHeight
         val labelCountExcludingLastLabel =
@@ -103,31 +105,11 @@ fun LineChart(
             )
         }
 
-        val heightRequiredForLabels = xLabelLineHeight *
-                (labelCountExcludingLastLabel + 1)
-        val remainingHeightForLabels = labelViewPortHeightPx - heightRequiredForLabels
-        val spaceBetweenLabels = remainingHeightForLabels / labelCountExcludingLastLabel
-
         val maxYLabelWidth = yLabelTextLayoutResults.maxOfOrNull { it.size.width } ?: 0
-
-
         val viewPortTopY = verticalPaddingPx + xLabelLineHeight + 10f
         val viewPortRightX = size.width
         val viewPortBottomY = viewPortTopY + viewPortHeightPx
         val viewPortLeftX = 2f * horizontalPaddingPx + maxYLabelWidth
-
-        val viewPort = Rect(
-            left = viewPortLeftX,
-            top = viewPortTopY,
-            right = viewPortRightX,
-            bottom = viewPortBottomY
-        )
-
-        drawRect(
-            color = Color.Green.copy(alpha = 0.3f),
-            topLeft = viewPort.topLeft,
-            size = viewPort.size
-        )
 
         xLabelWidth = maxXLabelWidth + xAxisLabelSpacingPx
         xLabelTextLayoutResults.forEachIndexed { index, result ->
@@ -160,7 +142,56 @@ fun LineChart(
                     } else style.helperLinesThicknessPx
                 )
             }
+
+            if(selectedDataPointIndex == index) {
+                val valueLabel = ValueLabel(
+                    value = visibleDataPoints[index].y,
+                    unit = unit
+                )
+                val valueResult = measurer.measure(
+                    text = valueLabel.formatted(),
+                    style = textStyle.copy(
+                        color = style.selectedColor
+                    ),
+                    maxLines = 1
+                )
+                val textPositionX = if(selectedDataPointIndex == visibleDataPointsIndices.last) {
+                    x - valueResult.size.width
+                } else {
+                    x - valueResult.size.width / 2f
+                } + result.size.width / 2f
+                val isTextInVisibleRange =
+                    (size.width - textPositionX).roundToInt() in 0..size.width.roundToInt()
+                if(isTextInVisibleRange) {
+                    drawText(
+                        textLayoutResult = valueResult,
+                        topLeft = Offset(
+                            x = textPositionX,
+                            y = viewPortTopY - valueResult.size.height - 10f
+                        )
+                    )
+                }
+            }
+
         }
+
+        val heightRequiredForLabels = xLabelLineHeight *
+                (labelCountExcludingLastLabel + 1)
+        val remainingHeightForLabels = labelViewPortHeightPx - heightRequiredForLabels
+        val spaceBetweenLabels = remainingHeightForLabels / labelCountExcludingLastLabel
+
+        val viewPort = Rect(
+            left = viewPortLeftX,
+            top = viewPortTopY,
+            right = viewPortRightX,
+            bottom = viewPortBottomY
+        )
+
+        drawRect(
+            color = Color.Green.copy(alpha = 0.3f),
+            topLeft = viewPort.topLeft,
+            size = viewPort.size
+        )
 
         yLabelTextLayoutResults.forEachIndexed { index, result ->
             val x = horizontalPaddingPx + maxYLabelWidth - result.size.width.toFloat()
