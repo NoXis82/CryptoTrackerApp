@@ -19,7 +19,7 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.random.Random
 
-@Preview(widthDp = 1000)
+@Preview(widthDp = 1200)
 @Composable
 private fun LineChartPreview() {
     CryptoTrackerAppTheme {
